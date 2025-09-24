@@ -21,7 +21,6 @@ async def make_riot_request(url: str):
             return None
 
 
-@mcp.tool()
 async def get_puuid_by_summoner(summoner_name: str, summoner_tagline: str) -> str:
     """Get the puuid of a summoner by summoner name and tagline
 
@@ -31,11 +30,26 @@ async def get_puuid_by_summoner(summoner_name: str, summoner_tagline: str) -> st
     """
     url = f"{base_url}/riot/account/v1/accounts/by-riot-id/{summoner_name}/{summoner_tagline}"
     response = await make_riot_request(url)
-
-    if not response:
-        return "Bad Response"
-
     return response["puuid"]
+
+
+@mcp.tool()
+async def get_matches_by_summoner(summoner_name: str, summoner_tagline: str) -> dict:
+    puuid = await get_puuid_by_summoner(summoner_name, summoner_tagline)
+    url = f"{base_url}/lol/match/v5/matches/by-puuid/{puuid}/ids"
+    return await make_riot_request(url)
+
+
+@mcp.tool()
+async def get_match_details(match_id: str) -> dict:
+    url = f"{base_url}/lol/match/v5/matches/{match_id}"
+    return await make_riot_request(url)
+
+
+@mcp.tool()
+async def get_match_timeline(match_id: str) -> dict:
+    url = f"{base_url}/lol/match/v5/matches/{match_id}/timeline"
+    return await make_riot_request(url)
 
 
 if __name__ == "__main__":
