@@ -1,0 +1,21 @@
+FROM python:3.13-slim
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+WORKDIR /app
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies (leverages uv.lock for reproducible builds)
+RUN uv sync --frozen --no-dev
+
+COPY mcp_server/ ./mcp_server/
+
+ENV RIOT_API_KEY=""
+ENV PATH="/app/.venv/bin:$PATH"
+
+EXPOSE 8000
+
+CMD ["python", "-m", "mcp_server.riot_mcp"]

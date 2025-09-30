@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Any, Dict, List, Optional
 
@@ -6,15 +7,26 @@ from dotenv import load_dotenv
 from httpx import Headers
 from mcp.server.fastmcp import FastMCP
 
-from utils.frame_utils import (
+from mcp_server.utils.frame_utils import (
     filter_event_driven_frames,
     filter_power_spike_frames,
     get_strategic_frame_subset,
 )
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()],
+)
+
+
 load_dotenv()
+logger = logging.getLogger(__name__)
 mcp = FastMCP("riot")
 base_url = "https://americas.api.riotgames.com"
+
+logger.info("Starting Riot MCP Server")
 
 
 async def make_riot_request(url: str) -> Optional[Dict[str, Any]]:
@@ -124,4 +136,5 @@ async def get_match_timeline(
 
 
 if __name__ == "__main__":
-    mcp.run(transport="stdio")
+    logger.info("Starting MCP server with SSE transport")
+    mcp.run(transport="streamable-http")
