@@ -23,7 +23,7 @@ logging.basicConfig(
 
 load_dotenv()
 logger = logging.getLogger(__name__)
-mcp = FastMCP("riot")
+mcp = FastMCP("riot", host=os.getenv("FASTMCP_HOST", "127.0.0.1"))
 base_url = "https://americas.api.riotgames.com"
 
 logger.info("Starting Riot MCP Server")
