@@ -11,13 +11,20 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def greet(name):
-    return f"Hello {name}!"
+def answer(message, history):
+    return f"History Len: {len(history)}\n Message: {message}"
 
 
 def main():
     logger.info("Starting Gradio app")
-    demo = gr.Interface(fn=greet, inputs="text", outputs="text")
+    demo = gr.ChatInterface(
+        answer,
+        type="messages",
+        title="Chatbot",
+        description="",
+        textbox=gr.Textbox(),
+    )
+
     demo.launch(server_name="0.0.0.0", server_port=7860)
 
 
