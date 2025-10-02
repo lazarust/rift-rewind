@@ -15,3 +15,4 @@ services:
       dockerfile: Dockerfile.app
     ports:
       - "7860:7860"
+    env_file: ".env"
