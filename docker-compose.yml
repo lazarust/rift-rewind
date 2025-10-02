@@ -8,3 +8,11 @@ services:
     environment:
       - RIOT_API_KEY=${RIOT_API_KEY:-}
       - FASTMCP_HOST=0.0.0.0
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "7860:7860"
+    env_file: ".env"
