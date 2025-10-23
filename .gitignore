@@ -15,3 +15,5 @@ wheels/
 
 # This is just a copy of the structure of what's returned from the timeline API
 timeline.json
+
+.DS_Store

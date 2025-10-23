@@ -1,0 +1,10 @@
+services:
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    ports:
+      - "8000:8000"
+    environment:
+      - RIOT_API_KEY=${RIOT_API_KEY:-}
+      - FASTMCP_HOST=0.0.0.0
