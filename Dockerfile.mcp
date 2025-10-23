@@ -18,4 +18,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8000
 
-CMD ["python", "-m", "mcp_server.riot_mcp"]
+CMD ["uv", "run", "-m", "mcp_server.riot_mcp"]
